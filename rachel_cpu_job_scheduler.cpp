@@ -8,13 +8,17 @@
 *                at 4 and 8 quantum seconds.  
 ****************************************************************************/
 #include <iostream> //Input output
+#include <iomanip>
 #include <cstdlib> // for random number 
 #include <ctime> 
-#define MAXPROCESSES 10
+#define MAXPROCESSES 5
+#define NUMBERRUNS 100
 using std::cout;
 using std::cin;
 using std::sort;
-
+using std::setw;
+using std::fixed;
+using std::setprecision;
 /*************************************************************************
                                 process_info
 This structure holds information about a process, namely the CPU
@@ -39,14 +43,21 @@ void Priority(int size, process_info arr[],double &awt, double &att);
 void RoundRobin(int size, process_info arr[],double &awt, double &att, int quantum);
 bool CompareProcessPriority(const process_info &process1,const process_info &process2 );
 bool AllProcessesComplete(int size, process_info arr[]);
+void PrintProcesses(int size, process_info arr[]);
+bool ShouldPrint(int i);
 int random_priority();
+void fillArrayTester(int size, process_info arr[]);
+
 
 /*************************************************************************
                                 Main Function
 ****************************************************************************/
 int main()
-{
-    //if need to run 100 times then make variables here
+{    
+    //Providing a seed value once for entire program
+    srand((unsigned) time(NULL));
+
+    //All variables needed to hold awt, att and averages
     double awtFCFS = 0;
     double attFCFS = 0;
     double awtSJF = 0;
@@ -55,47 +66,130 @@ int main()
     double attPri = 0;
     double awtRR = 0;
     double attRR = 0;
+    double awtFCFSAvg = 0;
+    double attFCFSTAvg = 0;
+    double awtSJFAvg = 0;
+    double attSJFAvg = 0;
+    double awtPriAvg = 0;
+    double attPriAvg= 0;
+    double awtRRAvg = 0;
+    double attRRAvg = 0;
 
-    // Providing a seed value once for entire program
-    srand((unsigned) time(NULL));
 
-    //Create an array of size 100 to hold 100 processes
+    for (int i = 0; i< NUMBERRUNS; i++)
+    {
+
+    //Set every cout statement in the program to fixed
+    cout<<fixed;
+    
+    //Create an array of size MAXPROCESSES to hold MAXPROCESSES processes
     struct process_info processes[MAXPROCESSES];
 
     //Fill the process array infor with processes
-    fill_array_with_processes(MAXPROCESSES, processes);
+    //fill_array_with_processes(MAXPROCESSES, processes);
 
-    //Call FCFS and Print
-    cout<<"\n\nFIRST COME FIRST SERVE:\n";
-    cout<<"---------------------------\n";
+    fillArrayTester(MAXPROCESSES,processes);
+
+    //Print only processes 1,2,3 and 100
+     if (ShouldPrint(i) == true)
+     {
+        cout<<"\n=====================================================\n";
+        cout<<"\t\tRUN #: "<<i+1;
+        cout<<"\n=====================================================\n";
+        PrintProcesses(MAXPROCESSES,processes);
+     }
+
+    //Call FCFS and Print only runs processes 1,2,3 and 100
     FCFS(MAXPROCESSES, processes, awtFCFS,attFCFS);
-    cout<<"The AWT is "<<awtFCFS<<"\n";
-    cout<<"The ATT is "<<attFCFS<<"\n";
-    cout<<"---------------------------\n";
+    if (ShouldPrint(i) == true)
+    {
+    cout<<"-----------------------\n";
+    cout<<"FIRST COME FIRST SERVE\n";
+    cout<<"-----------------------\n";
+    cout<<fixed<<"The AWT is "<<setprecision(4)<<setw(9)<<awtFCFS<<" |\n";
+    cout<<"The ATT is "<<setprecision(4)<<setw(9)<<attFCFS<<" |\n";
+    cout<<"-----------------------\n";
+    }
 
-    //Call SJF and Print
-    cout<<"SHORTEST JOB FIRST :\n";
-    cout<<"---------------------------\n";
+    //Call SJF and Print only runs processes 1,2,3 and 100
     SJF(MAXPROCESSES, processes,awtSJF,attSJF);
-    cout<<"The AWT is "<<awtSJF<<"\n";
-    cout<<"The ATT is "<<attSJF<<"\n";
-    cout<<"---------------------------\n";
+    if (ShouldPrint(i) == true)
+    {
+    cout<<"SHORTEST JOB FIRST \n";
+    cout<<"-----------------------\n";
+    cout<<"The AWT is "<<setprecision(4)<<setw(9)<<awtSJF<<" |\n";
+    cout<<"The ATT is "<<setprecision(4)<<setw(9)<<attSJF<<" |\n";
+    cout<<"-----------------------\n";
+    }
 
-    //Call Priority and Print
-    cout<<"PRIORITY SCHEDULING :\n";
-    cout<<"---------------------------\n";
+    //Call Priority and Print only runs processes 1,2,3 and 100
     Priority(MAXPROCESSES, processes,awtPri,attPri);
-    cout<<"The AWT is "<<awtPri<<"\n";
-    cout<<"The ATT is "<<attPri<<"\n";
-    cout<<"---------------------------\n";
+    if (ShouldPrint(i) == true)
+    {
+    cout<<"PRIORITY SCHEDULING \n";
+    cout<<"-----------------------\n";
+    cout<<"The AWT is "<<setprecision(4)<<setw(9)<<awtPri<<" |\n";
+    cout<<"The ATT is "<<setprecision(4)<<setw(9)<<attPri<<" |\n";
+    cout<<"-----------------------\n";
+    }
 
-    //Call Round Robin
-    cout<<"ROUND ROBIN :\n";
-    cout<<"---------------------------\n";
+    //Call Round Robin and Print only runs processes 1,2,3 and 100
     RoundRobin(MAXPROCESSES, processes,awtRR,attRR,4);
-    cout<<"The AWT is "<<awtRR<<"\n";
-    cout<<"The ATT is "<<attRR<<"\n";
-    cout<<"---------------------------\n";
+    if (ShouldPrint(i) == true)
+    {
+    cout<<"ROUND ROBIN \n";
+    cout<<"-----------------------\n";
+    cout<<"The AWT is "<<setprecision(4)<<setw(9)<<awtRR<<" |\n";
+    cout<<"The ATT is "<<setprecision(4)<<setw(9)<<attRR<<" |\n";;
+    cout<<"-----------------------\n";
+    }
+
+    //Calculate the total of MAXRUN runs
+    awtFCFSAvg += awtFCFS;
+    attFCFSTAvg += attFCFS;
+    awtSJFAvg += awtSJF;
+    attSJFAvg += attSJF;
+    awtPriAvg += awtPri;
+    attPriAvg += attPri;
+    awtRRAvg += awtRR;
+    attRRAvg += attRR;
+
+    }
+
+    //Calculate the averages by dividing the totals by the number of runs
+    awtFCFSAvg  /= NUMBERRUNS;
+    attFCFSTAvg /= NUMBERRUNS;
+    awtSJFAvg   /= NUMBERRUNS;
+    attSJFAvg   /= NUMBERRUNS;
+    awtPriAvg   /= NUMBERRUNS;
+    attPriAvg   /= NUMBERRUNS;
+    awtRRAvg    /= NUMBERRUNS;
+    attRRAvg    /= NUMBERRUNS;
+
+    //Print the averages of all of the scheduling algos
+    cout<<"\n=====================================================\n";
+    cout<<"\t\tAVERAGE OF ALL RUNS:";
+    cout<<"\n=====================================================\n";
+    cout<<"AVERAGE FIRST COME FIRST SERVE\n";
+    cout<<"--------------------------\n";
+    cout<<"Average AWT is "<<setprecision(4)<<setw(9)<<awtFCFSAvg<<" |\n";
+    cout<<"Average ATT is "<<setprecision(4)<<setw(9)<<attFCFSTAvg<<" |\n";
+    cout<<"--------------------------\n";
+    cout<<"AVERAGE SHORTEST JOB FIRST \n";
+    cout<<"--------------------------\n";
+    cout<<"AVERAGE AWT is "<<setprecision(4)<<setw(9)<<awtSJFAvg<<" |\n";
+    cout<<"AVERAGE ATT is "<<setprecision(4)<<setw(9)<<attSJFAvg<<" |\n";
+    cout<<"--------------------------\n";
+    cout<<"AVERAGE PRIORITY SCHEDULING \n";
+    cout<<"--------------------------\n";
+    cout<<"AVERAGE AWT is "<<setprecision(4)<<setw(9)<<awtPriAvg<<" |\n";
+    cout<<"AVERAGE ATT is "<<setprecision(4)<<setw(9)<<attPriAvg<<" |\n";
+    cout<<"--------------------------\n";
+    cout<<"AVERAGE ROUND ROBIN \n";
+    cout<<"--------------------------\n";
+    cout<<"AVERAGE AWT is "<<setprecision(4)<<setw(9)<<awtRRAvg<<" |\n";
+    cout<<"AVERAGE ATT is "<<setprecision(4)<<setw(9)<<attRRAvg<<" |\n";;
+    cout<<"--------------------------\n";
     return 0;
 }
 
@@ -134,17 +228,11 @@ void FCFS(int size, process_info arr[],double &awt, double &att)
 
  for (int i=0; i <size;i++)                 //Iterate through all processes
  {
- total_wait = total_burst_time;             //wait time starts at 0 then each subsequent process waits
- //cout<<"\n\nTotal wait time is:"<<total_wait<<"";
- total_burst_time += arr[i].cpuBurstTime;     //Calculate burst time of all processes
- //cout<<"\nTotal burst time is:"<<total_burst_time<<"\n"; 
+ total_wait += total_burst_time;             //wait time starts at 0 then each subsequent process waits
+ total_burst_time += arr[i].cpuBurstTime;   //Calculate burst time of all processes
  }
-    cout<< "Total burst"<<total_burst_time<<"\n";
-    cout<< "Total wait"<<total_wait<<"\n";
-    //Calculate the awt and att and change them by reference
     awt = total_wait / size ;
     att = ((total_wait + total_burst_time) /size);
-
 }
 
 /*************************************************************************
@@ -154,18 +242,12 @@ fills the array with processes 1 through size with random CPUBurst times
 ****************************************************************************/
 void fill_array_with_processes(int size, process_info arr[])
 {
-    cout<<"List of all processes:\n";
-    cout<<"---------------------------------------\n";
     for (int i = 0;i<size;i++)
         {
-        //assign a process ID in order
+        //Assign a process ID in order
         arr[i].processID = i+1;
-        cout<<"The process ID "<< arr[i].processID;
-        //assign a CPU Burst time
         arr[i].cpuBurstTime = random_cpu_burst();
-        cout<<" Burst time :"<< arr[i].cpuBurstTime;
         arr[i].processPriority = random_priority();
-        cout<<"Priority :"<< arr[i].processPriority<<"\n";
         }
     return;
 }
@@ -186,22 +268,8 @@ void SJF(int size, process_info arr[],double &awt, double &att)
         tempArr[i] = arr[i];
     }
 
-    // //Print the array
-    // cout<<"Before sorting:\n";
-    //     for (int i = 0; i <size; i ++){
-    //     if (i%10 == 0 ){cout<<"\n";}
-    //     cout<<tempArr[i].cpuBurstTime<< "\t";
-    // }
-
     //Sort the array in assending order
     sort(tempArr,(tempArr + size),CompareCPUTimes);
-
-    // //Print the sorted array 
-    //   cout<<"\n\nAfter sorting:\n";
-    //     for (int i = 0; i <size; i ++){
-    //     if (i%10 == 0 ){cout<<"\n";}
-    //     cout<<tempArr[i].cpuBurstTime<< "\t";
-    // }
     //Now call the FCFS function on the array sorted by CPU burst time
     FCFS(MAXPROCESSES,tempArr, awt, att);
 }
@@ -223,24 +291,8 @@ void Priority(int size, process_info arr[],double &awt, double &att)
         tempArr[i] = arr[i];
     }
 
-    // //Print the array
-    // cout<<"Before sorting Priority:\n";
-    // cout<<"\n\nAfter sorting by priority:\n";
-    // for (int i = 0; i <size; i ++){
-    // if (i%10 == 0 ){cout<<"\n";}
-    // cout<<tempArr[i].processPriority<< "\t";
-    // }
-
     //Sort the array in assending order
     sort(tempArr,(tempArr + size),CompareProcessPriority);
-
-    // //Print the sorted array 
-    //   cout<<"\n\nAfter sorting by priority:\n";
-    //     for (int i = 0; i <size; i ++){
-    //     if (i%10 == 0 ){cout<<"\n";}
-    //     cout<<tempArr[i].processPriority<< "\t";
-    // }
-
     //Now call the FCFS function on the array sorted by CPU burst time
     FCFS(MAXPROCESSES,tempArr, awt, att);
 }
@@ -271,40 +323,25 @@ void RoundRobin(int size, process_info arr[],double &awt, double &att, int quant
         {
             if (tempArr[i].cpuBurstTime >=4)
             {
-            //cout<<"Inside IF ";
-            //cout<<"process "<<tempArr[i].processID<<" CPU time was: "<<tempArr[i].cpuBurstTime<<" ";
             tempArr[i].cpuBurstTime -= quantum;
             total_wait = total_burst_time;  //wait time starts at 0 then each subsequent process waits
             total_burst_time += quantum;
-            //cout<<"New burst time is:"<<total_burst_time<<"\n";
-            //cout<<"process "<<tempArr[i].processID<<" time quantum is now: "<<tempArr[i].cpuBurstTime<<" \n";
             }
             else if (tempArr[i].cpuBurstTime < 4 && tempArr[i].cpuBurstTime >0)
             {        
-            //cout<<"Inside ELSE ";
-            //cout<<"process "<<tempArr[i].processID<<" time quantum was: "<<tempArr[i].cpuBurstTime<<" ";
             total_wait = total_burst_time;  //wait time starts at 0 then each subsequent process waits
             total_burst_time += tempArr[i].cpuBurstTime;
             tempArr[i].cpuBurstTime -= tempArr[i].cpuBurstTime;
-           // cout<<"New burst time is:"<<total_burst_time<<"\n";
-            //cout<<"process"<<tempArr[i].processID<<"The time quantum is now: "<<tempArr[i].cpuBurstTime<<" \n";
             }
             else 
             {
             tempArr[i].cpuBurstTime = -1;
-            //cout<<"process"<<tempArr[i].processID<<"The time quantum is now: "<<tempArr[i].cpuBurstTime<<" \n";
             }
         }
 
-    cout<< "Total burst"<<total_burst_time<<"\n";
-    cout<< "Total wait"<<total_wait<<"\n";
-
     awt = total_wait/size;
     att = ((total_burst_time + total_wait)/size);
-    // need to minus the quantum each time until you hit 
-
 }
-
 
 /*************************************************************************
                                 CompareCPUTimes
@@ -330,14 +367,14 @@ thenfunction will return true. Else, this function will return false.
 ****************************************************************************/
 bool CompareProcessPriority(const process_info &process1,const process_info &process2)
 {
-    if (process2.processPriority >= process1.processPriority) {
+    if (process2.processPriority >= process1.processPriority) 
+    {
         return true; //the two processes are already in order
     }
     else {
         return false; //the two processes are out of order. 
     }
 }
-
 /*************************************************************************
                                 AllProcessesComplete
 
@@ -353,4 +390,67 @@ bool AllProcessesComplete(int size, process_info arr[])
     }
     return true;
     
+}
+
+/*************************************************************************
+                                ShouldPrint
+This function determines if it should print the process information and 
+results or not. Though, this program will run and record NUMRUMS times
+it will not need to print ALL of the results. Instead, we will print the
+first three and also print the last one. Instread of having just a bunch 
+of if statements in the program we will call this function to check if 
+the process should be printed. 
+****************************************************************************/
+bool ShouldPrint(int i)
+{
+    if (i >=0 && i < 3){
+        return true;
+    }
+    else if (i == NUMBERRUNS-1){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+/*************************************************************************
+                                Print Processes
+This function prints all processes and their respective information in a 
+given array. Parameters are first the size and then the array itself. 
+****************************************************************************/
+void PrintProcesses(int size, process_info arr[])
+{
+        cout<<"List of all processes:\n";
+        //cout<<"--------------------------------------------------\n";
+        //Assign a process ID in order
+        for (int i = 0; i < size; i++)
+        {
+        cout<<setprecision(2);
+        cout <<setw(4)<<"PID#"<< std::setw(3)<<arr[i].processID;
+        cout <<setw(15)<<"Burst time :"<<std::setw(5)<<arr[i].cpuBurstTime;
+        cout<<setw(13)<<"Priority :"<< arr[i].processPriority<<"\n";
+        }
+}
+
+/*************************************************************************
+                                Fill_Array_Tester
+****************************************************************************/
+void fillArrayTester(int size, process_info arr[])
+{
+arr[0].processID = 1;
+arr[0].cpuBurstTime = 4;
+arr[0].processPriority = 6;
+arr[1].processID = 2;
+arr[1].cpuBurstTime = 9;
+arr[1].processPriority = 3;
+arr[2].processID = 3;
+arr[2].cpuBurstTime = 4;
+arr[2].processPriority = 1;
+arr[3].processID = 4;
+arr[3].cpuBurstTime = 10;
+arr[3].processPriority = 9;
+arr[4].processID = 5;
+arr[4].cpuBurstTime = 6;
+arr[4].processPriority = 5;
 }
