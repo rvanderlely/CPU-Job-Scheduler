@@ -85,9 +85,10 @@ int main()
         struct process_info processes[MAXPROCESSES];    //Create an array of size MAXPROCESSES to hold MAXPROCESSES processes
 
         //Fill the process array infor with processes
-        //fill_array_with_processes(MAXPROCESSES, processes);
+        fill_array_with_processes(MAXPROCESSES, processes);
 
-        fillArrayTester(MAXPROCESSES,processes);
+        //This function may be commented back in for testing purposes later, comment out above function to use this one.
+        //fillArrayTester(MAXPROCESSES,processes);
 
         //Print only processes 1,2,3 and 100, as per instructions
         if (ShouldPrint(i) == true)
@@ -133,14 +134,22 @@ int main()
         //Call Round Robin and Print only runs processes 1,2,3 and 100, as per instructions
         RoundRobin(MAXPROCESSES, processes,awtRR,attRR,4);
         if (ShouldPrint(i) == true){
-        cout<<"ROUND ROBIN QUANTUM 4\n";
+        cout<<"ROUND ROBIN QUAN 4\n";
         cout<<"-----------------------\n";
         cout<<"The AWT is "<<setprecision(4)<<setw(9)<<awtRR<<" |\n";
         cout<<"The ATT is "<<setprecision(4)<<setw(9)<<attRR<<" |\n";;
         cout<<"-----------------------\n";
         }
 
-        
+        //Call Round Robin and Print only runs processes 1,2,3 and 100, as per instructions
+        RoundRobin(MAXPROCESSES, processes,awtRR8,attRR8,8);
+        if (ShouldPrint(i) == true){
+        cout<<"ROUND ROBIN QUAN 8\n";
+        cout<<"-----------------------\n";
+        cout<<"The AWT is "<<setprecision(4)<<setw(9)<<awtRR8<<" |\n";
+        cout<<"The ATT is "<<setprecision(4)<<setw(9)<<attRR8<<" |\n";;
+        cout<<"-----------------------\n";
+        }
 
         //Calculate and Incriment the total after each run
         awtFCFSAvg += awtFCFS;
@@ -151,6 +160,8 @@ int main()
         attPriAvg += attPri;
         awtRRAvg += awtRR;
         attRRAvg += attRR;
+        awtRRAvg8 += awtRR8;
+        attRRAvg8 += attRR8;
     //End of for loop to run program 100 times
      }
 
@@ -163,6 +174,8 @@ int main()
     attPriAvg   /= NUMBERRUNS;
     awtRRAvg    /= NUMBERRUNS;
     attRRAvg    /= NUMBERRUNS;
+    awtRRAvg8   /= NUMBERRUNS;
+    attRRAvg8   /= NUMBERRUNS;
 
     //Print the averages of all of the scheduling algos
     cout<<"\n=====================================================\n";
@@ -490,45 +503,30 @@ MAXPROCESSES at the top of the program in the define section.
 ****************************************************************************/
 void fillArrayTester(int size, process_info arr[])
 {
+
 // arr[0].processID = 1;
-// arr[0].cpuBurstTime = 24;
-// arr[0].remainingCPUBurstTime = arr[0].cpuBurstTime;
+// arr[0].cpuBurstTime = 4;
+// arr[0].remainingCPUBurstTime = 4;
 // arr[0].processPriority = 6;
 
 // arr[1].processID = 2;
-// arr[1].cpuBurstTime = 3;
-// arr[1].remainingCPUBurstTime = arr[1].cpuBurstTime;
+// arr[1].cpuBurstTime = 9;
+// arr[1].remainingCPUBurstTime = 9;
 // arr[1].processPriority = 3;
 
 // arr[2].processID = 3;
-// arr[2].cpuBurstTime = 3;
-// arr[2].remainingCPUBurstTime = arr[2].cpuBurstTime;
+// arr[2].cpuBurstTime = 4;
+// arr[2].remainingCPUBurstTime = 4;
 // arr[2].processPriority = 1;
 
+// arr[3].processID = 4;
+// arr[3].cpuBurstTime = 10;
+// arr[3].remainingCPUBurstTime = 10;
+// arr[3].processPriority = 9;
 
-arr[0].processID = 1;
-arr[0].cpuBurstTime = 4;
-arr[0].remainingCPUBurstTime = 4;
-arr[0].processPriority = 6;
-
-arr[1].processID = 2;
-arr[1].cpuBurstTime = 9;
-arr[1].remainingCPUBurstTime = 9;
-arr[1].processPriority = 3;
-
-arr[2].processID = 3;
-arr[2].cpuBurstTime = 4;
-arr[2].remainingCPUBurstTime = 4;
-arr[2].processPriority = 1;
-
-arr[3].processID = 4;
-arr[3].cpuBurstTime = 10;
-arr[3].remainingCPUBurstTime = 10;
-arr[3].processPriority = 9;
-
-arr[4].processID = 5;
-arr[4].cpuBurstTime = 6;
-arr[4].remainingCPUBurstTime = 6;
-arr[4].processPriority = 5;
+// arr[4].processID = 5;
+// arr[4].cpuBurstTime = 6;
+// arr[4].remainingCPUBurstTime = 6;
+// arr[4].processPriority = 5;
 }
 
