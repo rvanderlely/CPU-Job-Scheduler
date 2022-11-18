@@ -66,7 +66,7 @@ Rachel Vanderlely
 
 ## License
 
-This project is licensed under the Rachel Vanderlely License - see the LICENSE.md file for details
+This project is not licensed.
 
 ## Acknowledgments
 
