@@ -58,8 +58,6 @@ Rachel Vanderlely
 
 ## Version History
 
-* 0.2
-    *
 * 0.1
     *Lots of comments
     This version is a good version to look at the first three algorithums comment explainations. SJF, Priority, FCFS are all roughly written out 
