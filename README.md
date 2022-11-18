@@ -59,10 +59,12 @@ Rachel Vanderlely
 ## Version History
 
 * 0.2
-    * Various bug fixes and optimizations
-    * See [commit change]() or See [release history]()
+    *
 * 0.1
-    * Initial Release
+    *Lots of comments
+    This version is a good version to look at the first three algorithums comment explainations. SJF, Priority, FCFS are all roughly written out 
+    however the calculation was incorrect. Was missing a += there was a = in the calulation in the FCFS which was making all the other algorithums 
+    wrong. 
 
 ## License
 
