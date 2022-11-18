@@ -44,11 +44,13 @@ make
 
 ## Help
 
-Any advise for common problems or issues.
+Ensure that you are in the proper folder before attempting to run program. 
+Type in your termial:
 ```
-command to run if program contains helper info
+ls
 ```
-
+to ensure that the rachel_cpu_job_scheduler.cpp and rachel_cpu_job_scheduler.o and cpu files are all in the current location.
+If you are not in the correct folder you must navigate to the correct folder before attempting to run.
 ## Authors
 
 Rachel Vanderlely  
@@ -64,13 +66,8 @@ Rachel Vanderlely
 
 ## License
 
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
+This project is licensed under the Rachel Vanderlely License - see the LICENSE.md file for details
 
 ## Acknowledgments
 
-Inspiration, code snippets, etc.
-* [awesome-readme](https://github.com/matiassingers/awesome-readme)
-* [PurpleBooth](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
-* [dbader](https://github.com/dbader/readme-template)
-* [zenorocha](https://gist.github.com/zenorocha/4526327)
-* [fvcproductions](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
+Instructions for project given by Dr.Zhao of Cameron University
