@@ -30,16 +30,16 @@ running loop will be kept to find the average of all 100 averages, as per instru
 The instructions for this program are written for running on a UNIX or LINUX with all c++ dependencies already installed. 
 
 ### Installing
+https://github.com/rvanderlely/CPU-Job-Scheduler
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
 
 ### Executing program
 
-* How to run the program
-* Step-by-step bullets
 ```
-code blocks for commands
+make 
+```
+```
+./cpu
 ```
 
 ## Help
@@ -51,10 +51,8 @@ command to run if program contains helper info
 
 ## Authors
 
-Contributors names and contact info
-
-ex. Dominique Pizzie  
-ex. [@DomPizzie](https://twitter.com/dompizzie)
+Rachel Vanderlely  
+[@Rachel Vanderlely](https://github.com/rvanderlely)
 
 ## Version History
 
